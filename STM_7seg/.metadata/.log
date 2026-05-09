@@ -72,3 +72,15 @@ COM5
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 15:45:10.649
 !MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 16:18:41.656
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 22 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 16:18:41.657
+!MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 16:18:41.658
+!MESSAGE Error - No active DSF-Session. tmpSessionId = 22 (contextManager row 121)
+
+!ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 16:18:41.658
+!MESSAGE Existing sessions are:

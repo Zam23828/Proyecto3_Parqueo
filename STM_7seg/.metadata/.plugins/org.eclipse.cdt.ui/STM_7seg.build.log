@@ -1,0 +1,10 @@
+15:57:14 **** Incremental Build of configuration Debug for project STM_7seg ****
+make -j12 all 
+arm-none-eabi-size  STM_7seg.elf 
+   text	   data	    bss	    dec	    hex	filename
+  26628	     96	   2848	  29572	   7384	STM_7seg.elf
+Finished building: default.size.stdout
+ 
+
+15:57:14 Build Finished. 0 errors, 0 warnings. (took 437ms)
+

@@ -420,3 +420,19 @@ COM5
 
 !ENTRY com.st.stm32cube.ide.mcu.debug 4 0 2026-05-09 22:40:27.807
 !MESSAGE Existing sessions are:
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-05-09 23:46:36.210
+!MESSAGE Executed PowerShell command powershell.exe -Command "Get-CimInstance -ClassName Win32_SerialPort | Select-Object -ExpandProperty DeviceID":
+COM6
+COM5
+COM14
+
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-05-09 23:46:36.212
+!MESSAGE port: COM6
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-05-09 23:46:36.213
+!MESSAGE port: COM5
+
+!ENTRY com.st.stm32cube.ide.mpu.remote.serial 1 1 2026-05-09 23:46:36.213
+!MESSAGE port: COM14

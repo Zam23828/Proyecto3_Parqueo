@@ -36,7 +36,7 @@ String SendHTML();
 void setup() {
   Serial.begin(115200);
   delay(1000); // Pequeña pausa para que el puerto serial inicie bien
-  Serial.println("\n--- Iniciando ESP32 Sistema de Parqueo ---");
+  Serial.println("\n--- Iniciando ESP32 Parqueomatic ---");
 
   // Inicialización I2C
   Wire.begin(I2C_SDA, I2C_SCL);

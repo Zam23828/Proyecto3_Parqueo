@@ -68,7 +68,7 @@ static void MX_USART2_UART_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_I2C1_Init(void);
 /* USER CODE BEGIN PFP */
-
+void mostrar_parqueos_libres(uint8_t numero);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -130,14 +130,17 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
       HAL_ADC_Start_DMA(&hadc1, (uint32_t*)lecturas_sensores, 4);
-      HAL_Delay(20);                     // wait for ~4 conversions to finish
+      HAL_Delay(20);
       HAL_ADC_Stop_DMA(&hadc1);
+
+      uint8_t libres = 0;
 
       for(int i = 0; i < 4; i++) {
           if(lecturas_sensores[i] < 230) {
               // Valor menor a 230 -> Color VERDE (DISPONIBLE)
               setPixelColor(i, 0, 255, 0);
               aTxBuffer[i] = 0; // Se envía al ESP32 que está libre
+              libres++;
           } else {
               // Valor mayor o igual a 230 -> Color ROJO (OCUPADO)
               setPixelColor(i, 255, 0, 0);
@@ -145,6 +148,10 @@ int main(void)
           }
       }
       pixelShow();
+
+      // Actualizamos el display de 7 segmentos
+      mostrar_parqueos_libres(libres);
+
       HAL_Delay(50);
   }
   /* USER CODE END 3 */
@@ -466,6 +473,40 @@ void HAL_I2C_ErrorCallback(I2C_HandleTypeDef *hi2c){
     // Quitamos la trampa del Error_Handler.
     // Ahora, si hay un fallo de comunicación, simplemente reactiva la escucha.
     HAL_I2C_EnableListen_IT(hi2c);
+}
+
+void mostrar_parqueos_libres(uint8_t numero) {
+    // Mapeo propuesto de pines a segmentos:
+    // PC0 = A, PC1 = B, PC2 = C, PC3 = D
+    // PB0 = E, PB1 = F, PB2 = G
+
+    // Variables para el estado de cada segmento (0 = Apagado, 1 = Encendido)
+    // NOTA: Asumimos display Cátodo Común (1=Encendido).
+    // Si tu display es de ÁNODO COMÚN, invierte los 1s por 0s y viceversa.
+    uint8_t a=0, b=0, c=0, d=0, e=0, f=0, g=0;
+
+    switch(numero) {
+        case 0: a=1; b=1; c=1; d=1; e=1; f=1; g=0; break;
+        case 1: a=0; b=1; c=1; d=0; e=0; f=0; g=0; break;
+        case 2: a=1; b=1; c=0; d=1; e=1; f=0; g=1; break;
+        case 3: a=1; b=1; c=1; d=1; e=0; f=0; g=1; break;
+        case 4: a=0; b=1; c=1; d=0; e=0; f=1; g=1; break;
+        case 5: a=1; b=0; c=1; d=1; e=0; f=1; g=1; break;
+        case 6: a=1; b=0; c=1; d=1; e=1; f=1; g=1; break;
+        case 7: a=1; b=1; c=1; d=0; e=0; f=0; g=0; break;
+        case 8: a=1; b=1; c=1; d=1; e=1; f=1; g=1; break;
+        default: break; // Apaga todo si hay un error o número fuera de rango
+    }
+
+    // Escribir a los pines configurados
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, a ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, b ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, c ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, d ? GPIO_PIN_SET : GPIO_PIN_RESET);
+
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, e ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, f ? GPIO_PIN_SET : GPIO_PIN_RESET);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, g ? GPIO_PIN_SET : GPIO_PIN_RESET);
 }
 /* USER CODE END 4 */
 

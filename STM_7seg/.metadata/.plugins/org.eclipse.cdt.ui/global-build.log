@@ -1,0 +1,21 @@
+00:30:07 **** Incremental Build of configuration Debug for project STM_7seg ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "STM_7seg.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\Usuario\Documents\UVG\CUARTO AÑO\Digital II\Proyecto3 (Parqueo)\Proyecto3_Parqueo\STM_7seg\STM_7seg\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_7seg.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: STM_7seg.elf
+ 
+arm-none-eabi-size  STM_7seg.elf 
+arm-none-eabi-objdump -h -S STM_7seg.elf  > "STM_7seg.list"
+   text	   data	    bss	    dec	    hex	filename
+  36020	     96	   2936	  39052	   988c	STM_7seg.elf
+Finished building: default.size.stdout
+ 
+Finished building: STM_7seg.list
+ 
+00:30:47 **** Incremental Build of configuration Debug for project STM_7seg ****
+make -j12 all 
+arm-none-eabi-size  STM_7seg.elf 
+   text	   data	    bss	    dec	    hex	filename
+  36020	     96	   2936	  39052	   988c	STM_7seg.elf
+Finished building: default.size.stdout
+ 

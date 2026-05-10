@@ -29,6 +29,7 @@ const long intervaloI2C = 1000; // Leer datos cada 1 segundo (1000 ms)
 // Declaración de funciones
 void i2cScanner();
 void solicitarDatosI2C();
+void enviarDatosVecinoI2C();
 void handle_OnConnect();
 void handle_NotFound();
 String SendHTML();
@@ -64,6 +65,7 @@ void loop() {
   if (tiempoActual - tiempoAnterior >= intervaloI2C) {
     tiempoAnterior = tiempoActual;
     solicitarDatosI2C();
+    enviarDatosVecinoI2C();
   }
 }
 
@@ -79,8 +81,9 @@ void solicitarDatosI2C() {
   Serial.print("Buscando Esclavo 1 (0x18)... ");
   Wire.beginTransmission(I2CSlaveAddress1);
   Wire.write(comando);
+  Wire.write((uint8_t)0);   // padding to match 'N' frame length (2 bytes)
   error = Wire.endTransmission(true);
-  
+
   if (error == 0) {
     Serial.println("OK");
     uint8_t bytesReceived1 = Wire.requestFrom((uint16_t)I2CSlaveAddress1, (uint8_t)4);
@@ -104,8 +107,12 @@ void solicitarDatosI2C() {
   Serial.print("Buscando Esclavo 2 (0x27)... ");
   Wire.beginTransmission(I2CSlaveAddress2);
   Wire.write(comando);
+  Wire.write((uint8_t)0);   // padding to match 'N' frame length (5 bytes)
+  Wire.write((uint8_t)0);
+  Wire.write((uint8_t)0);
+  Wire.write((uint8_t)0);
   error = Wire.endTransmission(true);
-  
+
   if (error == 0) {
     Serial.println("OK");
     uint8_t bytesReceived2 = Wire.requestFrom((uint16_t)I2CSlaveAddress2, (uint8_t)4);
@@ -123,6 +130,22 @@ void solicitarDatosI2C() {
   } else {
     Serial.print("Fallo (Error "); Serial.print(error); Serial.println(")");
   }
+}
+
+void enviarDatosVecinoI2C() {
+  // ---- Enviar a STM_TFT (0x27): los 4 estados del STM_7seg ----
+  Wire.beginTransmission(I2CSlaveAddress2);
+  Wire.write('N');
+  for (int i = 0; i < 4; i++) Wire.write(estadoParqueos[i] ? 1 : 0);
+  Wire.endTransmission(true);
+
+  // ---- Enviar a STM_7seg (0x18): conteo de libres del STM_TFT ----
+  uint8_t libresTFT = 0;
+  for (int i = 4; i < 8; i++) if (!estadoParqueos[i]) libresTFT++;
+  Wire.beginTransmission(I2CSlaveAddress1);
+  Wire.write('N');
+  Wire.write(libresTFT);
+  Wire.endTransmission(true);
 }
 
 void i2cScanner() {

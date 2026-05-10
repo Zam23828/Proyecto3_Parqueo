@@ -95,7 +95,8 @@ static uint8_t avail_drawn = 0xFF;
 
 // Buffers para I2C
 uint8_t aTxBuffer[4] = {0, 0, 0, 0}; // Estado de los 4 parqueos (0=Libre, 1=Ocupado)
-uint8_t aRxBuffer[1] = {0};          // Para recibir el comando 'S' del ESP32
+uint8_t aRxBuffer[5] = {0};          // [0]=cmd ('S' o 'N'), [1..4]=estados del vecino
+volatile uint8_t vecino_spots[4] = {0, 0, 0, 0}; // Spots del STM_7seg → idx 0..3 del TFT
 
 /* USER CODE END PV */
 
@@ -297,6 +298,10 @@ int main(void)
 
 	  for (int i = 0; i < 4; i++){
 		  Parking_SetSpot(i+4, lecturas_sensores[i] > 230);
+	  }
+
+	  for (int i = 0; i < 4; i++){
+		  Parking_SetSpot(i, vecino_spots[i]);
 	  }
 
 	  Parking_Update();
@@ -716,7 +721,7 @@ void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c){
 void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode){
     if(TransferDirection == I2C_DIRECTION_TRANSMIT){
         // El Maestro (ESP32) quiere transmitir, la STM32 debe RECIBIR
-        HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *) aRxBuffer, 1, I2C_FIRST_AND_LAST_FRAME);
+        HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *) aRxBuffer, 5, I2C_FIRST_AND_LAST_FRAME);
     } else if (TransferDirection == I2C_DIRECTION_RECEIVE){
         // El Maestro (ESP32) quiere recibir, la STM32 debe TRANSMITIR
         HAL_I2C_Slave_Seq_Transmit_IT(hi2c, (uint8_t *) aTxBuffer, 4, I2C_FIRST_AND_LAST_FRAME);
@@ -724,9 +729,10 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
 }
 
 void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c){
-    if (aRxBuffer[0] == 'S'){
-        // Código opcional si necesitas reaccionar al comando S
+    if (aRxBuffer[0] == 'N') {
+        for (int i = 0; i < 4; i++) vecino_spots[i] = aRxBuffer[i + 1];
     }
+    // 'S' → no action; padding bytes ignored
     aRxBuffer[0] = 0x00;
 }
 

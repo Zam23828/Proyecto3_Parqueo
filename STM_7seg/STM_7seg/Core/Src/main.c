@@ -56,7 +56,8 @@ float brilloled = 50.0f;
 
 // Buffers para I2C
 uint8_t aTxBuffer[4] = {0, 0, 0, 0}; // Estado de los 4 parqueos (0=Libre, 1=Ocupado)
-uint8_t aRxBuffer[1] = {0};          // Para recibir el comando 'S' del ESP32
+uint8_t aRxBuffer[2] = {0};          // [0]=cmd ('S' o 'N'), [1]=conteo de libres del vecino
+volatile uint8_t vecino_libres = 0;  // Libres reportados por STM_TFT
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -149,8 +150,10 @@ int main(void)
       }
       pixelShow();
 
-      // Actualizamos el display de 7 segmentos
-      mostrar_parqueos_libres(libres);
+      // Actualizamos el display de 7 segmentos con el total (propios + vecino)
+      uint8_t total = libres + vecino_libres;
+      if (total > 8) total = 8;     // safety clamp
+      mostrar_parqueos_libres(total);
 
       HAL_Delay(50);
   }
@@ -455,7 +458,7 @@ void HAL_I2C_ListenCpltCallback(I2C_HandleTypeDef *hi2c){
 void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, uint16_t AddrMatchCode){
     if(TransferDirection == I2C_DIRECTION_TRANSMIT){
         // El Maestro (ESP32) quiere transmitir, la STM32 debe RECIBIR
-        HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *) aRxBuffer, 1, I2C_FIRST_AND_LAST_FRAME);
+        HAL_I2C_Slave_Seq_Receive_IT(hi2c, (uint8_t *) aRxBuffer, 2, I2C_FIRST_AND_LAST_FRAME);
     } else if (TransferDirection == I2C_DIRECTION_RECEIVE){
         // El Maestro (ESP32) quiere recibir, la STM32 debe TRANSMITIR
         HAL_I2C_Slave_Seq_Transmit_IT(hi2c, (uint8_t *) aTxBuffer, 4, I2C_FIRST_AND_LAST_FRAME);
@@ -463,8 +466,8 @@ void HAL_I2C_AddrCallback(I2C_HandleTypeDef *hi2c, uint8_t TransferDirection, ui
 }
 
 void HAL_I2C_SlaveRxCpltCallback(I2C_HandleTypeDef *hi2c){
-    if (aRxBuffer[0] == 'S'){
-        // Código opcional si necesitas reaccionar al comando S
+    if (aRxBuffer[0] == 'N') {
+        if (aRxBuffer[1] <= 4) vecino_libres = aRxBuffer[1];
     }
     aRxBuffer[0] = 0x00;
 }

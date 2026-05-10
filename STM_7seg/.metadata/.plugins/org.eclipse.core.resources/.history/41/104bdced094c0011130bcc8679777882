@@ -50,7 +50,7 @@ UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 uint8_t lecturas_sensores[4];
-float brilloled = 50.0f;
+float brilloled = 25.0f;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,7 +104,7 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)lecturas_sensores, 4);
-  setBrightness(25);
+  setBrightness(100);
   pixelClear();
   pixelShow();
   HAL_Delay(1000);

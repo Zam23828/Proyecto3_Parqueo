@@ -104,7 +104,7 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   HAL_ADC_Start_DMA(&hadc1, (uint32_t*)lecturas_sensores, 4);
-  setBrightness(25);
+  setBrightness(50);
   pixelClear();
   pixelShow();
   HAL_Delay(1000);

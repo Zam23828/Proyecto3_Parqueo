@@ -60,8 +60,8 @@ all: main-build
 main-build: proyecto3.elf secondary-outputs
 
 # Tool invocations
-proyecto3.elf proyecto3.map: $(OBJS) $(USER_OBJS) C:\Users\2015s\OneDrive\ -\ UVG\2026\ UVG\semestre\ 1\Digital\ 2\proyecto3\proyecto3\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "proyecto3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\2015s\OneDrive - UVG\2026 UVG\semestre 1\Digital 2\proyecto3\proyecto3\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="proyecto3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+proyecto3.elf proyecto3.map: $(OBJS) $(USER_OBJS) C:\Users\2015s\OneDrive\ -\ UVG\2026\ UVG\semestre\ 1\Digital\ 2\proyecto3\Proyecto3_Parqueo\STM_TFT\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "proyecto3.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\2015s\OneDrive - UVG\2026 UVG\semestre 1\Digital 2\proyecto3\Proyecto3_Parqueo\STM_TFT\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="proyecto3.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

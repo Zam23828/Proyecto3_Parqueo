@@ -60,8 +60,8 @@ all: main-build
 main-build: STM_7seg.elf secondary-outputs
 
 # Tool invocations
-STM_7seg.elf STM_7seg.map: $(OBJS) $(USER_OBJS) C:\Users\Usuario\Documents\UVG\CUARTO\ AÑO\Digital\ II\Proyecto3\ (Parqueo)\Proyecto3_Parqueo\STM_7seg\STM_7seg\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "STM_7seg.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Usuario\Documents\UVG\CUARTO AÑO\Digital II\Proyecto3 (Parqueo)\Proyecto3_Parqueo\STM_7seg\STM_7seg\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_7seg.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+STM_7seg.elf STM_7seg.map: $(OBJS) $(USER_OBJS) C:\Users\2015s\OneDrive\ -\ UVG\2026\ UVG\semestre\ 1\Digital\ 2\proyecto3\Proyecto3_Parqueo\STM_7seg\STM_7seg\STM32F446RETX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "STM_7seg.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\2015s\OneDrive - UVG\2026 UVG\semestre 1\Digital 2\proyecto3\Proyecto3_Parqueo\STM_7seg\STM_7seg\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="STM_7seg.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

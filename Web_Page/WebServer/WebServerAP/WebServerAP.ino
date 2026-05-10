@@ -223,10 +223,19 @@ String SendHTML() {
   pagina += "</script>\n";
   pagina += "</head>\n";
 
+  // Contar espacios disponibles
+  uint8_t disponibles = 0;
+  for (int i = 0; i < 8; i++) if (!estadoParqueos[i]) disponibles++;
+
   pagina += "<body>\n";
   pagina += "<h1>Parqueomatic</h1>\n";
   pagina += "<button onclick=intercambiarColores()>Cambiar Tema</button>\n";
-  
+
+  pagina += "<div style='font-size:1.4em; margin-bottom:20px;'>";
+  pagina += "Espacios disponibles: <span class='disponible' style='font-size:1.6em;'>";
+  pagina += String(disponibles);
+  pagina += "</span> / 8</div>\n";
+
   pagina += "<table>\n";
   pagina += "<thead><tr><th>Espacio</th><th>Estado</th></tr></thead>\n";
   pagina += "<tbody>\n";

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!-- Write your comments here -->
+<html>
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cinzel&family=Montserrat:wght@300&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+        <style>
+            body {
+                background-color: rgb(0, 0, 52);
+                transition: background-color 0.4s ease;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                /*min-height: 100vh;
+                margin: 0;*/
+            }
+            h1{
+                text-align: center;
+                color: white;
+                font-family: 'Playfair Display', serif;
+                /*font-family: 'Montserrat', sans-serif;*/
+                /*font-family: 'Cinzel', sans-serif;*/
+
+                font-weight: bold;
+                transition: color 0.4s ease;
+                margin-top: 0;
+                margin-bottom: 20px;
+            }
+            button{
+                display: inline-block;
+                padding: 15px 30px;
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700; 
+                font-size: 16px;
+                cursor: pointer;
+                text-decoration: none;
+                text-transform: uppercase; 
+                
+                background-color: #fff; 
+                color: rgb(0, 0, 52); 
+                
+                border: none; 
+                border-radius: 8px; 
+                
+                
+                box-shadow: 0 5px 0 #b1b1b1;
+                
+                transition: all 0.1s ease; 
+                position: relative; 
+                outline: none;
+            }
+            button:hover {
+                background-color: #f0f0f0;
+            }
+            button:active {
+                box-shadow: 0 2px 0 #b1b1b1;
+                top: 3px; 
+            }
+
+            table {
+                width: 80%;
+                max-width: 800px;
+                border-collapse: collapse;
+                margin-bottom: 50px;
+                background-color: rgba(255, 255, 255, 0.05);
+                transition: all 0.4s ease;
+                font-family: 'Montserrat', sans-serif;
+            }
+
+            table th, table td {
+                padding: 12px 15px;
+                text-align: left;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+                color: white; 
+                transition: color 0.4s ease, border-color 0.4s ease;
+            }
+
+            caption {
+                padding: 10px;
+                font-style: italic;
+                color: #ccc;
+                transition: color 0.4s ease;
+            }
+
+            thead th {
+                background-color: rgba(255, 255, 255, 0.1);
+                font-family: 'Playfair Display', serif;
+                font-weight: bold;
+            }
+
+            tbody tr:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+
+
+            body.invertido {
+                background-color: white;
+            }
+
+            
+            body.invertido table th, body.invertido table td {
+                color: rgb(0, 0, 52); 
+                border-bottom: 1px solid rgba(0, 0, 52, 0.1);
+            }
+
+            body.invertido table {
+                background-color: rgba(0, 0, 52, 0.02);
+            }
+
+            body.invertido thead th {
+                background-color: rgba(0, 0, 52, 0.05);
+            }
+            body.invertido h1 {
+                color: rgb(0, 0, 52);
+            }
+            
+            body.invertido button {
+                background-color: rgb(0, 0, 52); 
+                color: white; 
+                box-shadow: 0 5px 0 rgb(0, 0, 20); 
+            }
+
+            body.invertido button:hover {
+                background-color: rgb(0, 0, 80); 
+            }
+
+            body.invertido button:active {
+                box-shadow: 0 2px 0 rgb(0, 0, 20);
+                top: 3px;
+            }
+        </style>
+        <h1>Parqueo</h1>
+    </head>
+    <body>
+        <button onclick="intercambiarColores()">Cambiar Tema</button>
+        <script>
+            function intercambiarColores(){
+                document.body.classList.toggle('invertido');
+            }
+        </script>
+        <br>
+        <br>
+        <table class="table caption-top">
+            <caption>List of users</caption>
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+                </tr>
+                <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                </tr>
+                <tr>
+                <th scope="row">3</th>
+                <td>John</td>
+                <td>Doe</td>
+                <td>@social</td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html>
